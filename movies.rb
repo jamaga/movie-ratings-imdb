@@ -6,7 +6,6 @@ class Movies
     @list = []
     @list_hash = {}
     @ratings = []
-    #@ratings = [7.8, 8.3, 9.2, 7.4, 7.7, 8.0, 7.7]
     File.open(file).each do |line|
       @list << line.chomp
     end
@@ -18,10 +17,9 @@ class Movies
 
   def going_through_list
     @list.each do |myonemovie|
-      @ratings << Imdb::Search.new(myonemovie).movies.first.rating
+    @list_hash.merge!({myonemovie => Imdb::Search.new(myonemovie).movies.first.rating})
     end
-
-    @ratings
+    @list_hash
   end
 
   def graphic_rating
@@ -36,10 +34,13 @@ class Movies
 
 end
 
+=begin
 list = Movies.new('titles_movies.txt')
-
-list.going_through_list
-
+p list.going_through_list
 list.graphic_rating
-
 list.numerical_list
+list.results
+=end
+
+list = Movies.new('titles_movies.txt')
+p list.going_through_list
